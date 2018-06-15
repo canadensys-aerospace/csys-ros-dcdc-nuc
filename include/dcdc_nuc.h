@@ -121,7 +121,7 @@ struct Dcdc_Nuc_Data {
 class Dcdc_Nuc {
  public:
   // Default constuctor, connects and sets up the device on creation.
-  Dcdc_Nuc();
+  Dcdc_Nuc(int bus = 0, int dev = 0);
 
   // Only public function, call to get all data from the PSU. See Dcdc_Nuc_Data
   // for more detail.
@@ -135,7 +135,7 @@ class Dcdc_Nuc {
   struct usb_dev_handle *h_ = NULL;
 
   // Connect to USB device by PID and VID defined as macros.
-  void connect_();
+  void connect_(int bus = 0, int dev = 0);
 
   // Clam the USB device and configure the device for communication.
   void setup_();

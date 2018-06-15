@@ -17,16 +17,17 @@
 // Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+#include <string.h>
 #include "dcdc_nuc.h"
 
-Dcdc_Nuc::Dcdc_Nuc() {
-  connect_();
+Dcdc_Nuc::Dcdc_Nuc(int bus, int dev) {
+  connect_(bus, dev);
   setup_();
 }
 
 Dcdc_Nuc::~Dcdc_Nuc() { usb_close(h_); }
 
-void Dcdc_Nuc::connect_() {
+void Dcdc_Nuc::connect_(int bus, int dev) {
   struct usb_bus *b;
   struct usb_device *d;
 
@@ -39,8 +40,16 @@ void Dcdc_Nuc::connect_() {
     for (d = b->devices; d != NULL; d = d->next) {
       if ((d->descriptor.idVendor == NUC_VID) &&
           (d->descriptor.idProduct == NUC_PID)) {
-        h_ = usb_open(d);
-        break;
+        if (bus > 0 && dev > 0) {
+          if (b->location == bus && atoi(d->filename) == dev) {
+            h_ = usb_open(d);
+            break;
+          }
+        }
+        else {
+          h_ = usb_open(d);
+          break;
+        }
       }
     }
   }

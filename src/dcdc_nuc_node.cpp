@@ -132,7 +132,9 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "dcdc_nuc");
   ros::NodeHandle nh("~");
 
-  dcdc_nuc = new Dcdc_Nuc();
+  int bus = nh.param<int>("bus", 0);
+  int dev = nh.param<int>("dev", 0);
+  dcdc_nuc = new Dcdc_Nuc(bus, dev);
 
   ros::Rate loop_rate(10);
 
