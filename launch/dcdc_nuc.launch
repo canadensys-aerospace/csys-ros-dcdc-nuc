@@ -1,4 +1,6 @@
 <launch>
-    <node name="dcdc_nuc" pkg="dcdc_nuc" type="dcdc_nuc_node" 
-        respawn_delay="5" respawn="true" output="screen" />
+    <node name="$(arg name)" pkg="dcdc_nuc" type="dcdc_nuc_node" output="screen">
+        <param name="bus" value="$(arg bus)" />
+        <param name="dev" value="$(arg dev)" />
+    </node>
 </launch>
